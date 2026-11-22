@@ -1,0 +1,247 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --foreground-rgb: 30, 41, 59;
+  --background-start-rgb: 248, 250, 252;
+  --background-end-rgb: 255, 255, 255;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  color: rgb(var(--foreground-rgb));
+  background: linear-gradient(
+      to bottom,
+      transparent,
+      rgb(var(--background-end-rgb))
+    )
+    rgb(var(--background-start-rgb));
+  font-family: 'Inter', sans-serif;
+}
+
+.glass-effect {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+/* ------------------------------------------------------------------
+   Motion system
+   ------------------------------------------------------------------ */
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-down {
+  from {
+    opacity: 0;
+    transform: translateY(-16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes zoom-in {
+  from {
+    opacity: 0;
+    transform: scale(0.94);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes page-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-12px);
+  }
+}
+
+@keyframes pulse-soft {
+  0%,
+  100% {
+    opacity: 0.25;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.4;
+    transform: scale(1.08);
+  }
+}
+
+.animate-fade-up {
+  animation: fade-up 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.animate-fade-down {
+  animation: fade-down 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.animate-fade-in {
+  animation: fade-in 1s ease-out both;
+}
+
+.animate-zoom-in {
+  animation: zoom-in 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.animate-page-in {
+  animation: page-in 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.animate-float {
+  animation: float 4s ease-in-out infinite;
+}
+
+.animate-float-slow {
+  animation: float 8s ease-in-out infinite;
+}
+
+.animate-float-slower {
+  animation: float 12s ease-in-out infinite;
+}
+
+.animate-pulse-soft {
+  animation: pulse-soft 7s ease-in-out infinite;
+}
+
+/* Scroll-triggered reveals. The `reveal-ready` class is added by a tiny
+   inline script before paint, so content stays visible if JS is disabled. */
+.reveal-ready [data-reveal] {
+  opacity: 0;
+  transform: translateY(30px);
+  transition:
+    opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  transition-delay: var(--reveal-delay, 0ms);
+  will-change: opacity, transform;
+}
+
+.reveal-ready [data-reveal='left'] {
+  transform: translateX(-40px);
+}
+
+.reveal-ready [data-reveal='right'] {
+  transform: translateX(40px);
+}
+
+.reveal-ready [data-reveal='zoom'] {
+  transform: scale(0.92);
+}
+
+.reveal-ready [data-reveal].is-visible {
+  opacity: 1;
+  transform: translateY(0) translateX(0) scale(1);
+}
+
+/* Stagger the direct children of a revealed group. */
+.reveal-ready [data-reveal-group] > * {
+  opacity: 0;
+  transform: translateY(26px);
+  transition:
+    opacity 0.65s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.reveal-ready [data-reveal-group].is-visible > * {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.reveal-ready [data-reveal-group].is-visible > *:nth-child(1) {
+  transition-delay: 0ms;
+}
+.reveal-ready [data-reveal-group].is-visible > *:nth-child(2) {
+  transition-delay: 90ms;
+}
+.reveal-ready [data-reveal-group].is-visible > *:nth-child(3) {
+  transition-delay: 180ms;
+}
+.reveal-ready [data-reveal-group].is-visible > *:nth-child(4) {
+  transition-delay: 270ms;
+}
+.reveal-ready [data-reveal-group].is-visible > *:nth-child(5) {
+  transition-delay: 360ms;
+}
+.reveal-ready [data-reveal-group].is-visible > *:nth-child(6) {
+  transition-delay: 450ms;
+}
+.reveal-ready [data-reveal-group].is-visible > *:nth-child(7) {
+  transition-delay: 540ms;
+}
+.reveal-ready [data-reveal-group].is-visible > *:nth-child(8) {
+  transition-delay: 630ms;
+}
+
+/* Respect users who prefer reduced motion. */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .reveal-ready [data-reveal],
+  .reveal-ready [data-reveal-group] > * {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+
+  .animate-fade-up,
+  .animate-fade-down,
+  .animate-fade-in,
+  .animate-zoom-in,
+  .animate-page-in,
+  .animate-float,
+  .animate-float-slow,
+  .animate-float-slower,
+  .animate-pulse-soft {
+    animation: none !important;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
